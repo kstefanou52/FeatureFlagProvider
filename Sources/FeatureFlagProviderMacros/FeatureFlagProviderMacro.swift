@@ -145,6 +145,14 @@ private func makeEnumDecl(enumName: String, flags: [FeatureFlag]) -> DeclSyntax 
                 .capitalized
             }
         
+            var isEnabled: Bool {
+                #if DEBUG
+                overridedValue ?? defaultValue
+                #else
+                defaultValue
+                #endif
+            }
+        
             func getUserDefaultsValue() -> Bool? {
                 if UserDefaults.standard.object(forKey: userDefaultsKey) != nil {
                     return UserDefaults.standard.bool(forKey: userDefaultsKey)
@@ -155,6 +163,10 @@ private func makeEnumDecl(enumName: String, flags: [FeatureFlag]) -> DeclSyntax 
         
             func saveUserDefaultValue(_ value: Bool) {
                 UserDefaults.standard.set(value, forKey: userDefaultsKey)
+            }
+        
+            static func isEnabled(_ featureFlag: \(enumName)) -> Bool {
+                featureFlag.isEnabled
             }
         }
         """
