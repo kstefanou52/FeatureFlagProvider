@@ -100,7 +100,7 @@ public enum PlistReader {
     public static func asDictionary(
         bundle: Bundle = .main,
         resourceName: String = "FeatureFlag"
-    ) throws -> [String: Bool] {
+    ) throws -> Dictionary<String, Bool> {
         guard let dictionary =  try Self.asNSDictionary(bundle: bundle, resourceName: resourceName) as? Dictionary<String, Bool> else {
             throw Error.wrongFormat
         }
