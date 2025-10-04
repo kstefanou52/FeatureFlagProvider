@@ -66,7 +66,7 @@ public enum PlistReader {
     /// - Example:
     /// ```swift
     /// let raw: NSDictionary = try PlistReader.asNSDectionary()
-    public static func asNSDectionary(
+    public static func asNSDictionary(
         bundle: Bundle = .main,
         resourceName: String = "FeatureFlag"
     ) throws -> NSDictionary {
@@ -97,11 +97,11 @@ public enum PlistReader {
     /// let flags: [String: Bool] = try PlistReader.asDectionary()
     /// let isNewFlowEnabled = flags["newOnboarding"] ?? false
     /// ```
-    public static func asDectionary(
+    public static func asDictionary(
         bundle: Bundle = .main,
         resourceName: String = "FeatureFlag"
-    ) throws -> Dictionary<String, Bool> {
-        guard let dictionary =  try Self.asNSDectionary(bundle: bundle, resourceName: resourceName) as? Dictionary<String, Bool> else {
+    ) throws -> [String: Bool] {
+        guard let dictionary =  try Self.asNSDictionary(bundle: bundle, resourceName: resourceName) as? Dictionary<String, Bool> else {
             throw Error.wrongFormat
         }
         return dictionary
@@ -145,7 +145,7 @@ public enum CaseStyle: Sendable {
 /// ```
 @freestanding(declaration, names: arbitrary)
 public macro GenerateFeatureFlags(
-    from flags: Dictionary<String, Bool>,
+    from flags: [String: Bool],
     enumName: String,
     caseStyle: CaseStyle
 ) = #externalMacro(module: "FeatureFlagProviderMacros", type: "GenerateFeatureFlagsMacro")
